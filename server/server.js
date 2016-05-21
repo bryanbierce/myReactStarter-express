@@ -9,6 +9,6 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use('/', express.static(path.join(__dirname, '/../public')));
 
-app.listen('3000', () => {
+app.listen('9000', () => {
   console.log('Live, over 9000!');
 });
