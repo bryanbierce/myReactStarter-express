@@ -1,69 +1,14 @@
-const Hapi = require('hapi');
-const Inert = require('inert');
-const Good = require('good');
-const GoodConsole = require('good-console');
-const Path = require('path');
-const env = require('../env.js');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const morgan = require('morgan');
 
-if(process.env.LOCATION === undefined) {
-  env();
-}
+const app = express();
 
-const server = new Hapi.Server({
-  connections: {
-    routes: {
-      files: {
-        relativeTo: Path.join(__dirname, '../public')
-      }
-    }
-  }
+app.use(bodyParser.json());
+app.use(morgan('dev'));
+app.use('/', express.static(path.join(__dirname, '/../public')));
+
+app.listen('3000', () => {
+  console.log('Live, over 9000!');
 });
-
-server.connection({ port: 4028 });
-
-
-server.register(Inert, (err) => {
-  if (err) throw err;
-
-  server.route({
-    method: 'GET',
-    path: '/{param*}',
-    handler: {
-      directory: {
-        path: './',
-        redirectToSlash: true,
-        index: true
-      }
-    }
-  });
-});
-
-
-function startServer() {
-  server.start((error) => {
-    if (error) throw error;
-
-    console.log('And we\'re live at: ', server.info.uri);
-  });
-}
-
-if (process.env.LOCATION === 'DEVELOPMENT') {
-  server.register({
-    register: Good,
-    options: {
-      reporters: [{
-        reporter: GoodConsole,
-        events: {
-          response: '*',
-          log: '*'
-        }
-      }]
-    }
-  }, (err) => {
-    if (err) throw err;
-
-    startServer();
-  });
-} else {
-  startServer();
-}
