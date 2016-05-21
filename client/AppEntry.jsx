@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './redux/store.js';
-import Home from './Home.jsx';
+import AppRouter from './AppRouter';
+import store from './redux/store';
 
 
 ReactDOM.render(
   <Provider store={store} >
-    <Home />
+    <AppRouter />
   </Provider>,
   document.getElementById('app')
 );

@@ -5,6 +5,7 @@
     ],
     "rules": {
       "quote-props": [2, "consistent-as-needed"],
-      "comma-dangle": [2, "never"]
+      "comma-dangle": [2, "never"],
+      "react/jsx-curl-spacing": [2, "always"]
     }
 }
